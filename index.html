@@ -6,7 +6,7 @@
 
   <title>The HTML5 Herald</title>
   <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 
@@ -39,6 +39,12 @@
 	    margin: 50px;
 	    font-size: 12px;
 	    border-top: 1px solid black;
+	}
+
+	@media (min-device-width : 320px) and (max-device-width : 480px) {
+		#prediction {
+			margin-top: 0;
+		}
 	}
   </style>
 
