@@ -1,4 +1,6 @@
 var countPredictions = 0;
+var storage = window.localStorage;
+var predictions = null;
 
 function randomInteger(min, max) {
 	var rand = min - 0.5 + Math.random() * (max - min + 1)
@@ -6,15 +8,24 @@ function randomInteger(min, max) {
 	return rand;
 }
 
+function save() {
+	console.log(storage);
+	storage.setItem('predictions', JSON.stringify(predictions));
+}
+
+function load() {
+	return JSON.parse(storage.getItem('predictions'));
+}
+
 document.querySelector('#generate-prediction').addEventListener('click', function() {
-	if (texts.length === 0) return;
+	if (!predictions || predictions.length === 0) return;
 
-	var random = randomInteger(0, texts.length-1);
+	var random = randomInteger(0, predictions.length-1);
 
-	document.querySelector('#prediction').innerHTML = texts[random];
+	document.querySelector('#prediction').innerHTML = predictions[random];
 	
 	var newDiv = document.createElement("div"); 
-	var newContent = document.createTextNode(texts[random]); 
+	var newContent = document.createTextNode(predictions[random]); 
 	newDiv.appendChild(newContent);
 	document.querySelector('#history').appendChild(newDiv);
 
@@ -23,7 +34,12 @@ document.querySelector('#generate-prediction').addEventListener('click', functio
 		document.querySelector('#history').style.visibility = 'visible';
 	}
 
-	texts.splice(random, 1);
+	predictions.splice(random, 1);
 
 	countPredictions++;
 });
+
+window.onload = function() {
+	var tmp = load();
+	predictions = (tmp) ? tmp : texts;
+}
